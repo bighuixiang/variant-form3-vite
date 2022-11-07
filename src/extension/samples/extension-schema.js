@@ -20,6 +20,7 @@ export const tableViewSchema = {
   category: 'container',
   icon: 'table-view',
   widgetList: [],
+  formItemFlag: true,
   options: {
     name: '',
     label: 'tableView',
@@ -37,12 +38,11 @@ export const tableViewSchema = {
     showOperationBtnCol: false,//显示操作按钮列
     customClass: '',
     editTableColumnTx: '',//图形编辑列按钮
-    slotTemplate: 'test',//插槽内容编辑
+    slotTemplate: '',//插槽内容编辑
     editTableColumn: JSON.stringify([
       {
         label: '名字',
         prop: 'name',
-        slotName: 'test',
         isShow: true,
       },
       {
@@ -71,46 +71,6 @@ export const tableViewSchema = {
         date: '2016-05-01',
         name: '王小帅',
         address: '上海市普陀区金沙江路 1519 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },
-      {
-        date: '2016-05-03',
-        name: '王小呆',
-        address: '上海市普陀区金沙江路 1516 弄'
       },
       {
         date: '2016-05-03',

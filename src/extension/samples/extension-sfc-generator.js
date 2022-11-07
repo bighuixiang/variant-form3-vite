@@ -33,7 +33,7 @@ export const cardTemplateGenerator = function (cw, formConfig) {
 
 export const tabViewTemplateGenerator = function (cw, formConfig) {
   const wop = cw.options
-  console.log("🚀 ~ file: extension-sfc-generator.js ~ line 35 ~ tabViewTemplateGenerator ~ wop", wop)
+  // console.log("🚀 ~ file: extension-sfc-generator.js ~ line 35 ~ tabViewTemplateGenerator ~ wop", wop)
   // editTableData    //table 数据
   // editTableColumn    //table 列数据
   // showCheckbox: false
@@ -52,11 +52,25 @@ export const tabViewTemplateGenerator = function (cw, formConfig) {
   const slotTemplate = !!wop.slotTemplate ? wop.slotTemplate : ''  //具名插槽
   const showPaginationEmit = !!wop.showPagination ? `@pagination-change-page="handleCurrentChange" @pagination-change-page-size="handleSizeChange"` : '' //是否展示分页组件的回调事件
   const showPaginationProp = !!wop.showPagination ? `v-model:currentPage="pageNum" v-model:pageSize="pageSize"` : '' //是否展示分页组件的分页绑定属性
-
+  const operationTemplate = !!wop.showOperationBtnCol ? `
+      <template #tvOperation>
+        <div class="tableview-btns flex flex-middle">
+            <el-button class="tableview-btn" type="primary" link @click="handleEditClick">
+              编辑
+            </el-button>
+            <el-button class="tableview-btn" type="primary" link @click="handleDeleteClick">
+              删除
+            </el-button>
+        </div >
+      </template>
+  `: ''
   const cardTemplate =
     `<div class="table-view-container">
         <table-view  ${showPaginationProp}  ${height} ${showSummary} ${showStripe} ${showPagination} ${showSmall} ${showBorder}  ${vShowAttr} ${classAttr} ${styleAttr} ${showPaginationEmit} >
+           
            ${slotTemplate}
+
+           ${operationTemplate}
         </table-view>
     </div>`
 

@@ -1,9 +1,9 @@
-import {isNotNull, traverseContainerWidgets, traverseFieldWidgets} from "@/utils/util";
-import {translate} from "@/utils/i18n";
-import FormValidators, {getRegExp} from "@/utils/validators";
+import { isNotNull, traverseContainerWidgets, traverseFieldWidgets } from "@/utils/util";
+import { translate } from "@/utils/i18n";
+import FormValidators, { getRegExp } from "@/utils/validators";
 
 export function buildDefaultValueListFn(formConfig, widgetList, resultList) {
-  return function(fieldWidget) {
+  return function (fieldWidget) {
     const fop = fieldWidget.options
     const fd = fop.defaultValue
     if (isNotNull(fd)) {
@@ -15,7 +15,7 @@ export function buildDefaultValueListFn(formConfig, widgetList, resultList) {
 }
 
 export function buildRulesListFn(formConfig, widgetList, resultList) {
-  return function(fieldWidget) {
+  return function (fieldWidget) {
     const fop = fieldWidget.options
     let fieldRules = []
     if (!!fop.required) {
@@ -29,7 +29,7 @@ export function buildRulesListFn(formConfig, widgetList, resultList) {
       let vldName = fop.validation
       if (!!FormValidators[vldName]) {
         fieldRules.push(`{
-          pattern: ${eval( getRegExp(vldName) )},
+          pattern: ${eval(getRegExp(vldName))},
           trigger: ['blur', 'change'],
           message: '${fop.validationHint}'
         }`)
@@ -49,7 +49,7 @@ export function buildRulesListFn(formConfig, widgetList, resultList) {
 }
 
 export function buildFieldOptionsFn(formConfig, widgetList, resultList) {
-  return function(fieldWidget) {
+  return function (fieldWidget) {
     const fop = fieldWidget.options
     const ft = fieldWidget.type
     if ((ft === 'radio') || (ft === 'checkbox') || (ft === 'select') || (ft === 'cascader')) {
@@ -59,7 +59,7 @@ export function buildFieldOptionsFn(formConfig, widgetList, resultList) {
 }
 
 export function buildUploadDataFn(formConfig, widgetList, resultList) {
-  return function(fieldWidget) {
+  return function (fieldWidget) {
     const fop = fieldWidget.options
     const ft = fieldWidget.type
     if ((ft === 'picture-upload') || (ft === 'file-upload')) {
@@ -69,6 +69,48 @@ export function buildUploadDataFn(formConfig, widgetList, resultList) {
     }
   }
 }
+
+export function buildTableViewDataFn(formConfig, widgetList, resultList, handleEvent) {
+  return function (fieldWidget) {
+    const fop = fieldWidget.options
+    const ft = fieldWidget.type
+    if (ft === 'table-view') {
+      let tvColumn = JSON.parse(fop.editTableColumn)
+      // let tvData = JSON.parse(fop.editTableData)
+      if (fop.showRowNumber) {
+        //显示行号
+        tvColumn.unshift({
+          type: 'index',
+          width: '60px',
+          label: '序号'
+        });
+      }
+      if (fop.showCheckbox) {
+        //显示复选框
+        tvColumn.unshift({
+          type: 'selection',
+          width: 50
+        });
+      }
+      //是否显示操作列
+      if (fop.showOperationBtnCol) {
+        tvColumn.push({
+          label: '操作',
+          fixed: "right",
+          slotName: "tvOperation"
+        });
+      }
+      resultList.push(`${fop.name}TVColumn: ${JSON.stringify(tvColumn)},`)
+      resultList.push(`${fop.name}TVData: ${fop.editTableData},`)
+      if (fop.showOperationBtnCol) {
+        handleEvent.push(`const ${fop.name}ClickEditHandler = (row,index) => {}`)
+        handleEvent.push(`const ${fop.name}ClickDeleteHandler = (row,index) => {}`)
+      }
+    }
+  }
+}
+
+
 
 export function buildActiveTabs(formConfig, widgetList) {
   let resultList = []
@@ -99,7 +141,7 @@ export const genVue2JS = function (formConfig, widgetList) {
   const activeTabs = buildActiveTabs(formConfig, widgetList)
 
   const v2JSTemplate =
-`  export default {
+    `  export default {
     components: {},
     props: {},
     data() {

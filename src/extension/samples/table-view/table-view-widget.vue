@@ -98,10 +98,11 @@ export default {
           width: 50
         });
       }
-      //是否显示复选框
+      //是否显示操作列
       if (this.widget.options.showOperationBtnCol) {
         result.push({
           label: '操作',
+          fixed: "right",
           render: (scope) => {
             // const { row, column } = scope
             // const propKey = column.property
@@ -113,10 +114,10 @@ export default {
                 <el-button class="tableview-btn" type="primary" link>
                   删除
                 </el-button>
-              </div>
+              </div >
             )
           }
-        },);
+        });
       }
       return result
     },

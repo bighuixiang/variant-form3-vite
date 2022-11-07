@@ -150,14 +150,14 @@
           <el-button @click="editSlotTemplate" type="info" plain round icon="el-icon-edit" size="small">编辑表格插槽代码
           </el-button>
         </div>
-        <el-table style="margin-top: 12px;" :data="tableData" stripe border height="586px">
-          <el-table-column type="index" />
-          <el-table-column label="字段名称" width="120">
+        <el-table style="margin-top: 12px;" :data="tableData" stripe border max-height="386px">
+          <el-table-column type="index" fixed="left" />
+          <el-table-column label="字段名称" width="120" fixed="left">
             <template #default="scope">
               <el-input v-model="tableData[scope.$index].prop" placeholder="请输入内容" clearable></el-input>
             </template>
           </el-table-column>
-          <el-table-column label="显示名称" width="120">
+          <el-table-column label="显示名称" width="120" fixed="left">
             <template #default="scope">
               <el-input v-model="tableData[scope.$index].label" placeholder="请输入内容" clearable></el-input>
             </template>
@@ -174,17 +174,17 @@
           </el-table-column>
           <el-table-column label="排序" width="68">
             <template #default="scope">
-              <el-switch v-model="tableData[scope.$index].isSort" />
+              <el-switch v-model="tableData[scope.$index].sortable" />
             </template>
           </el-table-column>
-          <el-table-column label="是否固定" width="120">
+          <el-table-column label="是否固定" width="112">
             <template #default="scope">
-              <el-select v-model="tableData[scope.$index].isFixed" placeholder="请选择" clearable>
+              <el-select v-model="tableData[scope.$index].fixed" placeholder="请选择" clearable>
                 <el-option v-for="item in ['false', 'left', 'right']" :key="item" :label="item" :value="item" />
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="对齐方式">
+          <el-table-column label="对齐方式" width="112">
             <template #default="scope">
               <el-select v-model="tableData[scope.$index].align" placeholder="请选择" clearable>
                 <el-option v-for="item in ['left', 'center', 'right']" :key="item" :label="item" :value="item" />
@@ -200,7 +200,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="渲染函数">
+          <el-table-column label="渲染函数" width="150">
             <template #default="scope">
               <el-button v-if="tableData[scope.$index].cloFormat !== 'slot'" type="info" plain
                          :disabled="tableData[scope.$index].cloFormat !== 'render'" round icon="el-icon-edit"
@@ -210,7 +210,7 @@
 
             </template>
           </el-table-column>
-          <el-table-column label="操作(列排序)" width="190">
+          <el-table-column label="操作(列排序)" width="190" fixed="right">
             <template #default="scope">
               <el-button :disabled="scope.$index === 0" type="text" @click.stop="sortUp(scope.$index, scope.row)">↑
               </el-button>
