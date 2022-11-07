@@ -1,13 +1,13 @@
 <template>
   <container-wrapper :designer="designer" :widget="widget" :parent-widget="parentWidget" :parent-list="parentList"
                      :index-of-parent-list="indexOfParentList">
-    <TableView :tableId="widget.id" :key="widget.id" :ref="widget.id" v-model:currentPage="pageNum"
-               v-model:pageSize="pageSize" :column="column" :table-data="tableData" :total="100"
-               :stripe="widget.options.showStripe" :is-show-pagination="widget.options.showPagination"
-               :show-summary="widget.options.showSummary" :small="widget.options.showSmall"
-               :border="widget.options.showBorder" :height="widget.options.tableViewHeight"
-               :width="widget.options.tableViewWidth" :typeindex="widget.options.showRowNumber"
-               @pagination-change-page="handleCurrentChange" @pagination-change-page-size="handleSizeChange"
+    <TableView :tableId="widget.id" :ref="widget.id" v-model:currentPage="pageNum" v-model:pageSize="pageSize"
+               :column="column" :table-data="tableData" :total="100" :stripe="widget.options.showStripe"
+               :is-show-pagination="widget.options.showPagination" :show-summary="widget.options.showSummary"
+               :small="widget.options.showSmall" :border="widget.options.showBorder"
+               :height="widget.options.tableViewHeight" :style="{ width: widget.options.tableViewWidth }"
+               :typeindex="widget.options.showRowNumber" @pagination-change-page="handleCurrentChange"
+               @pagination-change-page-size="handleSizeChange"
                :class="[!!widget.options.folded ? 'folded' : '', customClass]" @click.stop="selectWidget(widget)">
       <draggable :list="widget.widgetList" item-key="id"
                  v-bind="{ group: 'dragGroup', ghostClass: 'ghost', animation: 200 }" handle=".drag-handler"
@@ -75,110 +75,53 @@ export default {
     customClass() {
       return this.widget.options.customClass || ''
     },
+    rowStyle() {
+      let result = {
+        height: this.widget.options.lineHeight + 'px',
+      }
+      return result
+    },
     column() {
-      return [
-        {
-          type: 'selection',
-          width: 50
-        },
-        {
+      let result = JSON.parse(this.widget.options.editTableColumn)
+      //是否显示行号
+      if (this.widget.options.showRowNumber) {
+        result.unshift({
           type: 'index',
           width: '60px',
           label: '序号'
-        },
-        {
-          label: '名字',
-          prop: 'name',
-          slotName: 'test'
-        },
-        {
-          prop: 'date',
-          label: '日期'
-        },
-        {
-          prop: 'address',
-          label: '地址'
-        }
-      ]
+        });
+      }
+      //是否显示复选框
+      if (this.widget.options.showCheckbox) {
+        result.unshift({
+          type: 'selection',
+          width: 50
+        });
+      }
+      //是否显示复选框
+      if (this.widget.options.showOperationBtnCol) {
+        result.push({
+          label: '操作',
+          render: (scope) => {
+            // const { row, column } = scope
+            // const propKey = column.property
+            return (
+              <div class="flex flex-middle">
+                <el-button class="tableview-btn" type="primary" link>
+                  编辑
+                </el-button>
+                <el-button class="tableview-btn" type="primary" link>
+                  删除
+                </el-button>
+              </div>
+            )
+          }
+        },);
+      }
+      return result
     },
     tableData() {
-      return [
-        {
-          date: '2016-05-02',
-          name: '佘太君',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小帅',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小呆',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      return JSON.parse(this.widget.options.editTableData);
     },
   },
   data() {
@@ -190,7 +133,6 @@ export default {
   },
   created() {
     this.initRefList()
-    console.log("initRefLis", this.widget.options.tableData)
   },
   methods: {
     handleCurrentChange(val) {

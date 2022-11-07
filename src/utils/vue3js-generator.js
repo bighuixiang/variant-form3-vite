@@ -4,9 +4,11 @@ import {
   buildFieldOptionsFn,
   buildRulesListFn, buildUploadDataFn
 } from "@/utils/vue2js-generator";
-import {traverseFieldWidgets} from "@/utils/util";
+import { traverseFieldWidgets } from "@/utils/util";
 
 export const genVue3JS = function (formConfig, widgetList) {
+  // console.log("🚀 ~ file: vue3js-generator.js ~ line 62 ~ genVue3JS ~ formConfig", formConfig)
+  console.log("🚀 ~ file: vue3js-generator.js ~ line 62 ~ genVue3JS ~ widgetList", widgetList)
   let defaultValueList = []
   let rulesList = []
   let fieldOptions = []
@@ -21,17 +23,23 @@ export const genVue3JS = function (formConfig, widgetList) {
   const activeTabs = buildActiveTabs(formConfig, widgetList)
 
   const v3JSTemplate =
-`  import { defineComponent, toRefs, reactive, getCurrentInstance } from 'vue'
-  
-  export default defineComponent({
-    components: {},
-    props: {},
-    setup() {
-      const state = reactive({
+    `
+    import { loginReq } from '@/api/user
+    
+    //所有的表格查询都用这个hooks
+    //import tablePageHooks from '@/hooks/useTablePage'
+    //const { pageNum, pageSize, handleCurrentChange, handleSizeChange } = tablePageHooks((val) => {
+    //  //TOOD : 此处为表格数据查询接口    currentPage  pageSize  发生变化都会调用此函数
+    //  console.log('🚀 ~ file: Table.vue ~ line 51 ~此处为表格数据查询接口~ TOOD  pageNum', pageNum.value)
+    //  console.log('🚀 ~ file: Table.vue ~ line 51 ~此处为表格数据查询接口~ TOOD pageSize', pageSize.value)
+    //})
+
+    //const ${formConfig.refName} = ref(null)
+    const state = reactive({
+      ${formConfig.refName}:null,
         ${formConfig.modelName}: {
           ${defaultValueList.join('\n')}
         },
-        
         ${formConfig.rulesName}: {
           ${rulesList.join('\n')}
         },
@@ -42,29 +50,24 @@ export const genVue3JS = function (formConfig, widgetList) {
         
         ${uploadData.join('\n')}
       })
-    
-      const instance = getCurrentInstance()
       
-      const submitForm = () => {
-        instance.proxy.$refs['vForm'].validate(valid => {
-          if (!valid) return
-          
-          //TODO: 提交表单
-        })
-      }
-      
-      const resetForm = () => {
-        instance.proxy.$refs['vForm'].resetFields()
-      }
-      
-      return {
-        ...toRefs(state),
-        submitForm,
-        resetForm
-      }
+    //提交表单
+    const submitForm = () => {
+      state.${formConfig.refName}.validate(valid => {
+        if (!valid) return
+        //TODO: 提交表单
+      })
     }
-  })`
+    //重置表单
+    const resetForm = () => {
+      state.${formConfig.refName}.resetFields()
+    }
 
+    onMouted(()=>{
+
+    })
+`
   return v3JSTemplate
 }
+
 

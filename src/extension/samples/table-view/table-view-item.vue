@@ -1,10 +1,14 @@
 <template>
   <container-item-wrapper :widget="widget">
-    <TableView :key="widget.id" :ref="widget.id" v-model:currentPage="pageNum" v-model:pageSize="pageSize"
-               :column="column" :table-data="tableData" v-model:height="widget.options.tableViewHeight"
-               :total="tableData.length" stripe is-show-pagination @pagination-change-page="handleCurrentChange"
-               @pagination-change-page-size="handleSizeChange"
-               :class="[!!widget.options.folded ? 'folded' : '', customClass]" v-show="!widget.options.hidden">
+    <TableView :tableId="widget.id" :key="widget.id" :ref="widget.id" v-model:currentPage="pageNum"
+               v-model:pageSize="pageSize" :column="column" :table-data="tableData" :total="100"
+               :stripe="widget.options.showStripe" :is-show-pagination="widget.options.showPagination"
+               :show-summary="widget.options.showSummary" :small="widget.options.showSmall"
+               :border="widget.options.showBorder" :height="widget.options.tableViewHeight"
+               :style="{ width: widget.options.tableViewWidth }" :typeindex="widget.options.showRowNumber"
+               @pagination-change-page="handleCurrentChange" @pagination-change-page-size="handleSizeChange"
+               :class="[!!widget.options.folded ? 'folded' : '', customClass]" @click.stop="selectWidget(widget)"
+               v-show="!widget.options.hidden">
       <template v-if="!!widget.widgetList && (widget.widgetList.length > 0)">
         <template v-for="(subWidget, swIdx) in widget.widgetList">
           <template v-if="'container' === subWidget.category">

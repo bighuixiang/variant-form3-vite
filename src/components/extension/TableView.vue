@@ -1,7 +1,7 @@
 <!-- el-table-next 文档地址：https://el-table-next.vercel.app/guide/example.html -->
 <template>
   <div class="table-view">
-    <el-table-next :key="$attrs['tableId']" ref="singleTableRef" v-bind="$attrs" :column="column" :data="tableData"
+    <el-table-next v-if="isShowTable" ref="singleTableRef" v-bind="$attrs" :column="column" :data="tableData"
                    :align="align">
       <template v-for="(_, name) in $slots" :key="name" #[name]="scope">
         <slot :name="[name]" v-bind="scope"></slot>
@@ -18,7 +18,7 @@
 <script setup>
 import { getInnerRange } from '@vue/compiler-core';
 import ElTableNext from 'el-table-next'
-import { ref, watch, onMounted, getCurrentInstance } from "vue"
+import { ref, watch, onMounted, getCurrentInstance, nextTick } from "vue"
 const emit = defineEmits([
   'update:currentPage',
   'update:currentPageSize',
@@ -94,6 +94,7 @@ const singleTableRef = ref(null)
 //分页控件相关
 let currentPage = ref(props.currentPageProps)
 let currentPageSize = ref(props.currentPageSizeProps)
+let isShowTable = ref(true)
 
 watch(currentPage, (val) => {
   emit('update:currentPage', val)
@@ -105,6 +106,19 @@ watch(currentPageSize, (val) => {
   emit('update:currentPageSize', val)
   emit('pagination-change-page-size', val)
 })
+
+watch(() => props.column, (val) => {
+  //官方重置方法 无效解决数据错乱问题
+  isShowTable.value = false;
+  nextTick(() => {
+    isShowTable.value = true;
+  })
+},
+  {
+    deep: true
+  }
+)
+
 // //分页size发生变化回调
 // const handleSizeChange = (val) => {
 //   emit['size-change'](val)

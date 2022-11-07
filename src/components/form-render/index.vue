@@ -11,7 +11,7 @@
 <template>
   <el-form :label-position="labelPosition" :size="size" :class="[customClass]" class="render-form"
            :label-width="labelWidth" :validate-on-rule-change="false" :model="formDataModel" ref="renderForm"
-           @submit.prevent>
+           :inline="formConfig.isWrap" @submit.prevent>
     <template v-for="(widget, index) in widgetList">
       <template v-if="'container' === widget.category">
         <component :is="getContainerWidgetName(widget)" :widget="widget" :key="widget.id" :parent-list="widgetList"
@@ -704,5 +704,9 @@ export default {
 <style lang="scss" scoped>
 .el-form :deep(.el-row) {
   padding: 8px;
+}
+
+.el-form--inline :deep(.field-wrapper) {
+  display: inline-block;
 }
 </style>

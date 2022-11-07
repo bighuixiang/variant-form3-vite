@@ -22,6 +22,7 @@ import { alertTemplateGenerator } from '@/extension/samples/extension-sfc-genera
 import { tableViewSchema } from "@/extension/samples/extension-schema"
 import TableViewWidget from '@/extension/samples/table-view/table-view-widget'
 import TableViewItem from '@/extension/samples/table-view/table-view-item'
+import { tabViewTemplateGenerator } from '@/extension/samples/extension-sfc-generator'
 
 export const loadExtension = function (app) {
     /**
@@ -77,12 +78,17 @@ export const loadExtension = function (app) {
     PERegister.registerCPEditor(app, 'table-view-tableViewHeight', 'tbview-height-editor',
         PEFactory.createInputTextEditor('tableViewHeight', 'extension.setting.tableViewHeight'))
 
-    PERegister.registerCPEditor(app, 'table-view-lineHeight', 'tbview-lineHeight-editor',
-        PEFactory.createInputNumberEditor('lineHeight', '行距（px）'))
+    // PERegister.registerCPEditor(app, 'table-view-lineHeight', 'tbview-lineHeight-editor',
+    //     PEFactory.createInputNumberEditor('lineHeight', '行距（px）'))
     PERegister.registerCPEditor(app, 'table-view-showRowNumber', 'tbview-rowNumber-editor',
         PEFactory.createBooleanEditor('showRowNumber', '显示行号'))
     PERegister.registerCPEditor(app, 'table-view-showCheckbox', 'tbview-checkbox-editor',
         PEFactory.createBooleanEditor('showCheckbox', '显示复选框列'))
+    PERegister.registerCPEditor(app, 'table-view-editTableColumnTx', 'tbview-editTableColumnTx-editor',
+        PEFactory.createEditCodeButtonEditor('editTableColumnTx', '表格列图形编辑', '表格图形编辑列'))
+    PERegister.registerCPEditor(app, 'table-view-editTableData', 'tbview-editTableData-editor',
+        PEFactory.createEditCodeButtonEditor('editTableData', '表格数据代码编辑'))
+
     PERegister.registerCPEditor(app, 'table-view-showPagination', 'tbview-pagination-editor',
         PEFactory.createBooleanEditor('showPagination', '显示分页'))
     PERegister.registerCPEditor(app, 'table-view-showSmall', 'tbview-small-editor',
@@ -97,15 +103,15 @@ export const loadExtension = function (app) {
         PEFactory.createBooleanEditor('showOperationBtnCol', '显示操作按钮列'))
 
     PERegister.registerCPEditor(app, 'table-view-editTableColumn', 'tbview-editTableColumn-editor',
-        PEFactory.createEventHandlerEditor('editTableColumn', '表格列编辑'))
-    PERegister.registerCPEditor(app, 'table-view-editTableData', 'tbview-editTableData-editor',
-        PEFactory.createEventHandlerEditor('editTableData', '表格数据编辑'))
+        PEFactory.createEditCodeButtonEditor('editTableColumn', '表格列代码编辑'))
+
+    registerCWGenerator('table-view', tabViewTemplateGenerator)  //注册容器组件的代码生成器
 
     //表格高级属性
-    PERegister.registerAPEditor(app, 'table-view-column', 'tbview-column-editor',
-        PEFactory.createInputTextEditor('column', '表格列代码'))
-    PERegister.registerAPEditor(app, 'table-view-tableData', 'tbview-tableData-editor',
-        PEFactory.createInputTextEditor('tableData', '表格数据'))
+    // PERegister.registerAPEditor(app, 'table-view-column', 'tbview-column-editor',
+    //     PEFactory.createInputTextEditor('column', '表格列代码'))
+    // PERegister.registerAPEditor(app, 'table-view-tableData', 'tbview-tableData-editor',
+    //     PEFactory.createInputTextEditor('tableData', '表格数据'))
     /* 表单控件容器组件加载完毕 end */
 
 
