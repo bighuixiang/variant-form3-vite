@@ -27,7 +27,7 @@ export const genVue3JS = function (formConfig, widgetList) {
 
   const v3JSTemplate =
     `
-    import { loginReq } from '@/api/user‘
+    // import { loginReq } from '@/api/user'
     
     //所有的表格查询都用这个hooks
     //import tablePageHooks from '@/hooks/useTablePage'
@@ -37,7 +37,6 @@ export const genVue3JS = function (formConfig, widgetList) {
     //  console.log('🚀 ~ file: Table.vue ~ line 51 ~此处为表格数据查询接口~ TOOD pageSize', pageSize.value)
     //})
 
-    //const ${formConfig.refName} = ref(null)
     const state = reactive({
       ${formConfig.refName}:null,
         ${formConfig.modelName}: {
@@ -70,7 +69,7 @@ export const genVue3JS = function (formConfig, widgetList) {
       state.${formConfig.refName}.resetFields()
     }
 
-    onMouted(()=>{
+    onMounted(()=>{
 
     })
 `

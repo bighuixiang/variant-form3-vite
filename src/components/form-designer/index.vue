@@ -247,9 +247,9 @@ export default {
     },
 
     initLocale() {
-      this.curLocale = localStorage.getItem('v_form_locale')
+      this.curLocale = 'zh-CN'// localStorage.getItem('v_form_locale')
       if (!!this.vsCodeFlag) {
-        this.curLocale = this.curLocale || 'en-US'
+        this.curLocale = this.curLocale || 'zh-CN'; //'en-US'
       } else {
         this.curLocale = this.curLocale || 'zh-CN'
       }

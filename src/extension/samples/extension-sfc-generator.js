@@ -42,7 +42,9 @@ export const tabViewTemplateGenerator = function (cw, formConfig) {
   // slotTemplate: ''
   const classAttr = buildClassAttr(cw)
   const styleAttr = !!wop.tableViewWidth && wop.tableViewWidth !== '100%' ? `style="width: ${wop.tableViewWidth} !important"` : ''   //宽度
-  const height = !!wop.tableViewHeight ? `height:"${wop.tableViewHeight}"` : ''
+  const height = !!wop.tableViewHeight ? `height="${wop.tableViewHeight}"` : ''
+  const editTableColumn = !!wop.editTableColumn ? `:column="${wop.name}TVColumn"` : '' //列数据
+  const editTableData = !!wop.editTableData ? `:table-data="${wop.name}TVData"` : '' //表格数据列表
   const showSummary = !!wop.showSummary ? `summary` : '' //是否显示合计
   const showStripe = !!wop.showStripe ? `stripe` : '' //是否显示斑马线
   const showBorder = !!wop.showBorder ? `border` : '' //是否显示纵线
@@ -55,10 +57,10 @@ export const tabViewTemplateGenerator = function (cw, formConfig) {
   const operationTemplate = !!wop.showOperationBtnCol ? `
       <template #tvOperation>
         <div class="tableview-btns flex flex-middle">
-            <el-button class="tableview-btn" type="primary" link @click="handleEditClick">
+            <el-button class="tableview-btn" type="primary" link @click="${wop.name}ClickEditHandler">
               编辑
             </el-button>
-            <el-button class="tableview-btn" type="primary" link @click="handleDeleteClick">
+            <el-button class="tableview-btn" type="primary" link @click="${wop.name}ClickDeleteHandler">
               删除
             </el-button>
         </div >
@@ -66,7 +68,8 @@ export const tabViewTemplateGenerator = function (cw, formConfig) {
   `: ''
   const cardTemplate =
     `<div class="table-view-container">
-        <table-view  ${showPaginationProp}  ${height} ${showSummary} ${showStripe} ${showPagination} ${showSmall} ${showBorder}  ${vShowAttr} ${classAttr} ${styleAttr} ${showPaginationEmit} >
+        <table-view
+         ${showPaginationProp}  ${editTableColumn}   ${editTableData}   ${height} ${showSummary} ${showStripe} ${showPagination} ${showSmall} ${showBorder}  ${vShowAttr} ${classAttr} ${styleAttr} ${showPaginationEmit} >
            
            ${slotTemplate}
 

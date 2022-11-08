@@ -100,8 +100,8 @@ export function buildTableViewDataFn(formConfig, widgetList, resultList, handleE
           slotName: "tvOperation"
         });
       }
-      resultList.push(`${fop.name}TVColumn: ${JSON.stringify(tvColumn)},`)
-      resultList.push(`${fop.name}TVData: ${fop.editTableData},`)
+      resultList.push(`${fop.name}TVColumn: ${JSON.stringify(tvColumn)}`)
+      resultList.push(`${fop.name}TVData: ${fop.editTableData}`)
       if (fop.showOperationBtnCol) {
         handleEvent.push(`const ${fop.name}ClickEditHandler = (row,index) => {}`)
         handleEvent.push(`const ${fop.name}ClickDeleteHandler = (row,index) => {}`)
