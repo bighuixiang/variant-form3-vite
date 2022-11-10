@@ -80,11 +80,11 @@ export default {
       column: [
         {
           type: 'selection',
-          width: 50
+          width: 66
         },
         {
           type: 'index',
-          width: '60px',
+          width: '66px',
           label: '序号'
         },
         {

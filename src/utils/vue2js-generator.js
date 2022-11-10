@@ -70,7 +70,7 @@ export function buildUploadDataFn(formConfig, widgetList, resultList) {
   }
 }
 
-export function buildTableViewDataFn(formConfig, widgetList, resultList, handleEvent) {
+export function buildTableViewDataFn(formConfig, widgetList, resultList, handleEvent, tablePageHooks) {
   return function (fieldWidget) {
     const fop = fieldWidget.options
     const ft = fieldWidget.type
@@ -81,7 +81,7 @@ export function buildTableViewDataFn(formConfig, widgetList, resultList, handleE
         //显示行号
         tvColumn.unshift({
           type: 'index',
-          width: '60px',
+          width: '66px',
           label: '序号'
         });
       }
@@ -89,7 +89,7 @@ export function buildTableViewDataFn(formConfig, widgetList, resultList, handleE
         //显示复选框
         tvColumn.unshift({
           type: 'selection',
-          width: 50
+          width: 66
         });
       }
       //是否显示操作列
@@ -103,9 +103,18 @@ export function buildTableViewDataFn(formConfig, widgetList, resultList, handleE
       resultList.push(`${fop.name}TVColumn: ${JSON.stringify(tvColumn)}`)
       resultList.push(`${fop.name}TVData: ${fop.editTableData}`)
       if (fop.showOperationBtnCol) {
+        handleEvent.push(`const ${fop.name}canteenClickDetailHandler = (row,index) => {}`)
         handleEvent.push(`const ${fop.name}ClickEditHandler = (row,index) => {}`)
         handleEvent.push(`const ${fop.name}ClickDeleteHandler = (row,index) => {}`)
       }
+      // tablePageHooks.push(`import tablePageHooks from '@/hooks/useTablePage'`)
+      tablePageHooks.push(`
+          const ${fop.name}TVHook = tablePageHooks((val) => {
+              //TOOD : 此处为表格分页数据查询接口    pageNum  pageSize  发生变化都会调用此函数  此处做分页操作
+              console.log('🚀 ~ ${fop.name}TVHook  ~此处为表格数据查询接口~ TOOD  pageNum', ${fop.name}TVHook.pageNum.value)
+              console.log('🚀 ~ ${fop.name}TVHook ~此处为表格数据查询接口~ TOOD pageSize', ${fop.name}TVHook.pageSize.value)
+          })
+      `)
     }
   }
 }

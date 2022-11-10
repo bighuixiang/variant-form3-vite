@@ -43,33 +43,41 @@ export const tabViewTemplateGenerator = function (cw, formConfig) {
   const classAttr = buildClassAttr(cw)
   const styleAttr = !!wop.tableViewWidth && wop.tableViewWidth !== '100%' ? `style="width: ${wop.tableViewWidth} !important"` : ''   //宽度
   const height = !!wop.tableViewHeight ? `height="${wop.tableViewHeight}"` : ''
-  const editTableColumn = !!wop.editTableColumn ? `:column="${wop.name}TVColumn"` : '' //列数据
-  const editTableData = !!wop.editTableData ? `:table-data="${wop.name}TVData"` : '' //表格数据列表
+  const editTableColumn = !!wop.editTableColumn ? `:column="state.${wop.name}TVColumn"` : '' //列数据
+  const editTableData = !!wop.editTableData ? `:table-data="state.${wop.name}TVData"` : '' //表格数据列表
+  const total = !!wop.editTableData ? `:total="state.${wop.name}TVData.length"` : '' //表格数据列表
   const showSummary = !!wop.showSummary ? `summary` : '' //是否显示合计
   const showStripe = !!wop.showStripe ? `stripe` : '' //是否显示斑马线
   const showBorder = !!wop.showBorder ? `border` : '' //是否显示纵线
-  const showPagination = !!wop.showPagination ? `is-show-pagination` : '' //是否展示分页组件
   const showSmall = !!wop.showSmall ? `small` : '' //是否小分页组件
+  const showPagination = !!wop.showPagination ? `is-show-pagination` : '' //是否展示分页组件
   const vShowAttr = !!wop.hidden ? `v-show="false"` : ''  //是否隐藏
   const slotTemplate = !!wop.slotTemplate ? wop.slotTemplate : ''  //具名插槽
-  const showPaginationEmit = !!wop.showPagination ? `@pagination-change-page="handleCurrentChange" @pagination-change-page-size="handleSizeChange"` : '' //是否展示分页组件的回调事件
-  const showPaginationProp = !!wop.showPagination ? `v-model:currentPage="pageNum" v-model:pageSize="pageSize"` : '' //是否展示分页组件的分页绑定属性
+  const showPaginationEmit = !!wop.showPagination ? `@pagination-change-page="${wop.name}TVHook.handleCurrentChange" @pagination-change-page-size="${wop.name}TVHook.handleSizeChange"` : '' //是否展示分页组件的回调事件
+  // const showPaginationProp = !!wop.showPagination ? `v-model:currentPage="pageNum" v-model:pageSize="pageSize"` : '' //是否展示分页组件的分页绑定属性
   const operationTemplate = !!wop.showOperationBtnCol ? `
       <template #tvOperation>
-        <div class="tableview-btns flex flex-middle">
-            <el-button class="tableview-btn" type="primary" link @click="${wop.name}ClickEditHandler">
-              编辑
-            </el-button>
-            <el-button class="tableview-btn" type="primary" link @click="${wop.name}ClickDeleteHandler">
-              删除
-            </el-button>
-        </div >
-      </template>
+                <div class="tableview-btns flex flex-middle">
+                  <el-button class="tableview-btn" link @click="${wop.name}ClickDetailHandler">详情</el-button>
+                  <el-button class="tableview-btn" link @click="${wop.name}ClickEditHandler">编辑</el-button>
+                  <el-popconfirm
+                    title="确认删除吗?"
+                    width="198px"
+                    confirm-button-text="确认"
+                    cancel-button-text="取消"
+                    @confirm="${wop.name}ClickDeleteHandler"
+                  >
+                    <template #reference>
+                      <el-button class="tableview-btn" type="primary" link>删除</el-button>
+                    </template>
+                  </el-popconfirm>
+                </div>
+              </template>
   `: ''
   const cardTemplate =
     `<div class="table-view-container">
         <table-view
-         ${showPaginationProp}  ${editTableColumn}   ${editTableData}   ${height} ${showSummary} ${showStripe} ${showPagination} ${showSmall} ${showBorder}  ${vShowAttr} ${classAttr} ${styleAttr} ${showPaginationEmit} >
+          ${editTableColumn}   ${editTableData}   ${height} ${showSummary} ${showStripe} ${showSmall} ${showBorder}  ${showPagination} ${vShowAttr} ${classAttr} ${styleAttr} ${showPaginationEmit} >
            
            ${slotTemplate}
 

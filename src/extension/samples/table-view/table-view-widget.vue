@@ -87,7 +87,7 @@ export default {
       if (this.widget.options.showRowNumber) {
         result.unshift({
           type: 'index',
-          width: '60px',
+          width: '66px',
           label: '序号'
         });
       }
@@ -95,7 +95,7 @@ export default {
       if (this.widget.options.showCheckbox) {
         result.unshift({
           type: 'selection',
-          width: 50
+          width: 66
         });
       }
       //是否显示操作列

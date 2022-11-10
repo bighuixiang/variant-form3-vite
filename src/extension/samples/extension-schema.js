@@ -31,7 +31,7 @@ export const tableViewSchema = {
     showRowNumber: false,//是否显示行号
     showCheckbox: false,//是否显示复选框列
     showPagination: true,//是否显示分页
-    showSmall: false,//小型分页
+    showSmall: true,//小型分页
     showSummary: false,//是否合计
     showStripe: true,//是否斑马线
     showBorder: true,//是否显示纵向线条
