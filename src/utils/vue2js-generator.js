@@ -82,14 +82,16 @@ export function buildTableViewDataFn(formConfig, widgetList, resultList, handleE
         tvColumn.unshift({
           type: 'index',
           width: '66px',
-          label: '序号'
+          label: '序号',
+          fiexd: "left"
         });
       }
       if (fop.showCheckbox) {
         //显示复选框
         tvColumn.unshift({
           type: 'selection',
-          width: 66
+          width: '66px',
+          fiexd: "left"
         });
       }
       //是否显示操作列
